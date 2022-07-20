@@ -4,8 +4,8 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.MessageCodec;
 import java.io.*;
 
-public class MathCodec<T> implements MessageCodec<T, T> {
-    public MathCodec() {
+public class Codec<T> implements MessageCodec<T, T> {
+    public Codec() {
     }
 
     @Override

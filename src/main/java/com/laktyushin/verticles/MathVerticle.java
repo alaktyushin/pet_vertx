@@ -1,7 +1,7 @@
 package com.laktyushin.verticles;
 
 import com.laktyushin.Starter;
-import com.laktyushin.messages.MathCodec;
+import com.laktyushin.messages.Codec;
 import com.laktyushin.messages.MathMessage;
 import com.laktyushin.messages.MathMethods;
 import io.vertx.core.AbstractVerticle;
@@ -24,7 +24,7 @@ public class MathVerticle extends AbstractVerticle {
         String mathMessage = mathMethods.getStringBuilder(x, y).toString();
         MathMessage message = new MathMessage(x, y, mathMessage);
         vertx.eventBus().registerDefaultCodec(MathMessage.class,
-                new MathCodec<>());
+                new Codec<>());
         vertx.eventBus().send("LoggingVerticle", message);
     }
 }
