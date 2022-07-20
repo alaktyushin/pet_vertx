@@ -3,6 +3,8 @@ package com.laktyushin.verticles;
 import com.laktyushin.Starter;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
+import io.vertx.core.http.HttpServer;
+import io.vertx.core.http.HttpServerResponse;
 
 import static com.laktyushin.Starter.LOG;
 public class LoggingVerticle extends AbstractVerticle {
@@ -11,8 +13,14 @@ public class LoggingVerticle extends AbstractVerticle {
         Starter.LOG.info("LoggingVerticle deployed");
         vertx.eventBus().consumer("LoggingVerticle", message -> {
             LOG.info("I have received a message: " + message.body());
-            LOG.info("The job is done. LoggingVerticle shuts down.");
-            vertx.close();
+            HttpServer server = vertx.createHttpServer();
+            server.requestHandler(request -> {
+                HttpServerResponse response = request.response();
+                response.putHeader("content-type", "text/plain");
+                response.end(message.body().toString());
+            });
+
+            server.listen(8080);
         });
     }
 }

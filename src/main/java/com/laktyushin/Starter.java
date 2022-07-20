@@ -3,6 +3,7 @@ package com.laktyushin;
 import com.laktyushin.io.*;
 import com.laktyushin.verticles.LoggingVerticle;
 import com.laktyushin.verticles.MathVerticle;
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.MessageConsumer;
@@ -23,8 +24,6 @@ public class Starter {
         final double x = input.askNumber("Enter X: ");
         final double y = input.askNumber("Enter Y: ");
         starter.vertx.deployVerticle(new LoggingVerticle());
-        starter.vertx.deployVerticle(new MathVerticle());
-        starter.vertx.eventBus().send(consumer.address(), x);
-        starter.vertx.eventBus().send(consumer.address(), y);
+        starter.vertx.deployVerticle(new MathVerticle(x, y));
     }
 }
