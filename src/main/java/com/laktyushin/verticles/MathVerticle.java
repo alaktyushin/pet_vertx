@@ -1,6 +1,7 @@
 package com.laktyushin.verticles;
 
 import com.laktyushin.Starter;
+import com.laktyushin.messages.MathMethods;
 import com.laktyushin.messages.MathResults;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
@@ -21,7 +22,8 @@ public class MathVerticle extends AbstractVerticle {
             LOG.info("MathVerticle received Y: " + message.body());
             numbers[1] = (double) message.body();
         });
-        MathResults mathResults = new MathResults();
+        //MathResults mathResults = new MathResults();
+        MathMethods mathResults = new MathMethods();
         String maths = mathResults.getStringBuilder(numbers[0], numbers[1]).toString();
         vertx.eventBus().send("LoggingVerticle", maths);
         LOG.info("The job is done. MathVerticle shuts down.");
