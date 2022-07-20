@@ -35,7 +35,8 @@ public class MathCodec<T> implements MessageCodec<T, T> {
     public T decodeFromWire(int pos, Buffer buffer) {
         int position = pos;
         int length = buffer.getInt(position);
-        byte[] bytes = buffer.getBytes(position += 4, position + length);
+        position += 4;
+        byte[] bytes = buffer.getBytes(position, position + length);
         ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
         try {
             ObjectInputStream ois = new ObjectInputStream(bis);

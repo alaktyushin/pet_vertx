@@ -21,8 +21,8 @@ public class MathMessage {
 
     @Override
     public String toString() {
-        return "\nX = " + getX() +
-                ", Y = " + getY() +
-                ", \n" + string;
+        return "\nX = " + getX()
+                + ", Y = " + getY()
+                + ", \n" + string;
     }
 }
