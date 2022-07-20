@@ -35,10 +35,10 @@ public class MathCodec<T> implements MessageCodec<T, T> {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
-            T msg = (T) objectInputStream.readObject();
+            T message = (T) objectInputStream.readObject();
             objectInputStream.close();
             byteArrayInputStream.close();
-            return msg;
+            return message;
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
