@@ -27,14 +27,14 @@ public class MathMethods {
                     try {
                         result.append(". Result: ").append(method.invoke(1, x)).append(System.lineSeparator());
                     } catch (IllegalArgumentException e) {
-                        result.append(". Argument type mismatch").append(System.lineSeparator());
+                        result.append(" Argument type mismatch").append(System.lineSeparator());
                     }
                 }
                 if (method.getParameters().length == 2) {
                     try {
                         result.append(". Result: ").append(method.invoke(1, x, y)).append(System.lineSeparator());
                     } catch (IllegalArgumentException e) {
-                        result.append(". Argument type mismatch").append(System.lineSeparator());
+                        result.append(" Argument type mismatch").append(System.lineSeparator());
                     }
                 }
                 if (method.getParameters().length > 2 || method.getParameters().length < 1) {
