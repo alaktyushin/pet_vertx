@@ -5,10 +5,7 @@ import io.vertx.core.eventbus.MessageCodec;
 import java.io.*;
 
 public class MathCodec<T> implements MessageCodec<T, T> {
-    private final Class<T> cls;
-    public MathCodec(Class<T> cls) {
-        super();
-        this.cls = cls;
+    public MathCodec() {
     }
 
     @Override
