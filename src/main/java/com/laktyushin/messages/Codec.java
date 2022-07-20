@@ -51,7 +51,7 @@ public class Codec<T> implements MessageCodec<T, T> {
 
     @Override
     public String name() {
-        return "MathCodec";
+        return "Codec";
     }
 
     @Override
