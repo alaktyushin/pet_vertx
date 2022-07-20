@@ -9,8 +9,10 @@ public class LoggingVerticle extends AbstractVerticle {
     @Override
     public void start(Promise<Void> startPromise) {
         Starter.LOG.info("LoggingVerticle deployed");
-        vertx.eventBus().consumer("LoggingVerticle", message ->
-                LOG.info("I have received a message: " + message.body()));
-        vertx.close();
+        vertx.eventBus().consumer("LoggingVerticle", message -> {
+            LOG.info("I have received a message: " + message.body());
+            LOG.info("The job is done. LoggingVerticle shuts down.");
+            vertx.close();
+        });
     }
 }
