@@ -10,36 +10,34 @@ public class MathCodec<T> implements MessageCodec<T, T> {
 
     @Override
     public void encodeToWire(Buffer buffer, T s) {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
-            ObjectOutput out = new ObjectOutputStream(bos);
-            out.writeObject(s);
-            out.close();
+            ObjectOutput objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(s);
+            objectOutputStream.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-            byte[] yourBytes = bos.toByteArray();
-            buffer.appendInt(yourBytes.length);
-            buffer.appendBytes(yourBytes);
+            byte[] bytes = byteArrayOutputStream.toByteArray();
+            buffer.appendInt(bytes.length);
+            buffer.appendBytes(bytes);
         try {
-            bos.close();
+            byteArrayOutputStream.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public T decodeFromWire(int pos, Buffer buffer) {
-        int position = pos;
-        int length = buffer.getInt(position);
+    public T decodeFromWire(int position, Buffer buffer) {
         position += 4;
-        byte[] bytes = buffer.getBytes(position, position + length);
-        ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+        byte[] bytes = buffer.getBytes(position, position + buffer.getInt(position));
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
         try {
-            ObjectInputStream ois = new ObjectInputStream(bis);
-            T msg = (T) ois.readObject();
-            ois.close();
-            bis.close();
+            ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+            T msg = (T) objectInputStream.readObject();
+            objectInputStream.close();
+            byteArrayInputStream.close();
             return msg;
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
