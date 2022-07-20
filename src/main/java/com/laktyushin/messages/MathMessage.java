@@ -11,18 +11,8 @@ public class MathMessage {
         this.string = string;
     }
 
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
     @Override
     public String toString() {
-        return "\nX = " + getX()
-                + ", Y = " + getY()
-                + ", \n" + string;
+        return "\nX = " + x + ", Y = " + y + ", \n" + string;
     }
 }
