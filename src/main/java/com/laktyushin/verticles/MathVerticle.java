@@ -23,8 +23,7 @@ public class MathVerticle extends AbstractVerticle {
         MathMethods mathMethods = new MathMethods();
         String mathMessage = mathMethods.getStringBuilder(x, y).toString();
         MathMessage message = new MathMessage(x, y, mathMessage);
-        vertx.eventBus().registerDefaultCodec(MathMessage.class,
-                new Codec<>());
+        vertx.eventBus().registerDefaultCodec(MathMessage.class, new Codec<>());
         vertx.eventBus().send("LoggingVerticle", message);
     }
 }

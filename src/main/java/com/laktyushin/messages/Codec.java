@@ -2,6 +2,7 @@ package com.laktyushin.messages;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.MessageCodec;
+
 import java.io.*;
 
 public class Codec<T> implements MessageCodec<T, T> {
@@ -18,9 +19,9 @@ public class Codec<T> implements MessageCodec<T, T> {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-            byte[] bytes = byteArrayOutputStream.toByteArray();
-            buffer.appendInt(bytes.length);
-            buffer.appendBytes(bytes);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        buffer.appendInt(bytes.length);
+        buffer.appendBytes(bytes);
         try {
             byteArrayOutputStream.close();
         } catch (IOException e) {
