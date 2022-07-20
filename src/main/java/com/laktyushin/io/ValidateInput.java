@@ -2,30 +2,30 @@ package com.laktyushin.io;
 
 public class ValidateInput implements Input {
     private final Output out;
-    private final Input in;
+    private final Input input;
 
-    public ValidateInput(Output out, Input input) {
-        this.out = out;
-        this.in = input;
+    public ValidateInput(Output output, Input input) {
+        this.out = output;
+        this.input = input;
     }
 
     @Override
     public String askStr(String question) {
-        return in.askStr(question);
+        return input.askStr(question);
     }
 
     @Override
     public double askNumber(String question) {
         boolean invalid = true;
-        double rsl = -1;
+        double result = -1;
         do {
             try {
-                rsl = in.askNumber(question);
+                result = input.askNumber(question);
                 invalid = false;
             } catch (NumberFormatException nfe) {
                 System.out.println("Please enter valid data again ");
             }
         } while (invalid);
-        return rsl;
+        return result;
     }
 }
