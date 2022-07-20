@@ -11,9 +11,7 @@ import org.slf4j.LoggerFactory;
 public class Starter {
     public Vertx vertx;
     //public EventBus eb;
-
     public static final Logger LOG = LoggerFactory.getLogger(Starter.class);
-
     public static void main(String[] args) {
         Starter starter = new Starter();
         starter.vertx = Vertx.vertx();
