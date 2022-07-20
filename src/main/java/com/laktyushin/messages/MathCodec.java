@@ -9,11 +9,11 @@ public class MathCodec<T> implements MessageCodec<T, T> {
     }
 
     @Override
-    public void encodeToWire(Buffer buffer, T s) {
+    public void encodeToWire(Buffer buffer, T str) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
             ObjectOutput objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-            objectOutputStream.writeObject(s);
+            objectOutputStream.writeObject(str);
             objectOutputStream.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
