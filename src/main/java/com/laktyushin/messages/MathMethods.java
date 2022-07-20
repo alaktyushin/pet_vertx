@@ -12,12 +12,13 @@ public class MathMethods {
     }
 
     public StringBuilder getStringBuilder(double x, double y) {
-        StringBuilder result = stringBuilder.append(System.lineSeparator())
-                .append("X = ").append(x).append("\t Y = ").append(y).append(System.lineSeparator())
+        StringBuilder result = stringBuilder
+                .append("--------------------------").append(System.lineSeparator())
                 .append("Name of method: +").append(". Result: ").append(x + y).append(System.lineSeparator())
                 .append("Name of method: -").append(". Result: ").append(x - y).append(System.lineSeparator())
                 .append("Name of method: *").append(". Result: ").append(x * y).append(System.lineSeparator())
-                .append("Name of method: /").append(". Result: ").append(x / y).append(System.lineSeparator());
+                .append("Name of method: /").append(". Result: ").append(x / y).append(System.lineSeparator())
+                .append("--------------------------").append(System.lineSeparator());
         Method[] methods1 = getMethods();
         try {
             for (Method method : methods1) {
@@ -43,6 +44,7 @@ public class MathMethods {
         } catch (InvocationTargetException | IllegalAccessException e) {
             result.append(". That's all!").append(System.lineSeparator());
         }
+        stringBuilder.append("--------------------------").append(System.lineSeparator());
         return result;
     }
 }
