@@ -14,8 +14,7 @@ public class Starter {
     public static void main(String[] args) {
         Starter starter = new Starter();
         starter.vertx = Vertx.vertx();
-        Output output = new ConsoleOutput();
-        Input input = new ValidateInput(output, new ConsoleInput());
+        Input input = new ValidateInput(new ConsoleOutput(), new ConsoleInput());
         final double x = input.askNumber("Enter X: ");
         final double y = input.askNumber("Enter Y: ");
         starter.vertx.deployVerticle(new LoggingVerticle());
