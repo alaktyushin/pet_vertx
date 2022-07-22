@@ -23,20 +23,16 @@ public class MathVerticle extends AbstractVerticle {
 
     @Override
     public void start(Promise<Void> startPromise) {
-        EventBus eb = vertx.eventBus();
         Starter.LOG.info("MathVerticle deployed");
-        final MathMethods[] mathMethods = {new MathMethods()};
-        final String[] mathMessage = {mathMethods[0].getStringBuilder(x, y).toString()};
-        final MathMessage[] message = {new MathMessage(x, y, mathMessage[0])};
-        eb.registerDefaultCodec(MathMessage.class, new Codec<>());
+        final double[] num = {x, y};
+        final EventBus eb = vertx.eventBus();
+        MathMethods mathMethods = new MathMethods();
         Router router = Router.router(vertx);
         HttpServer server = vertx.createHttpServer();
+        eb.registerDefaultCodec(MathMessage.class, new Codec<>());
         server.requestHandler(router).listen(8081);
-        eb.request("LoggingVerticle", message[0], res -> {
-            if (res.succeeded()) {
-                Starter.LOG.info("Received reply: " + res.result().body());
-            }
-        });
+
+
         router
                 .get("/math")
                 .handler(routingContext -> {
@@ -46,27 +42,31 @@ public class MathVerticle extends AbstractVerticle {
                         routingContext.fail(400);
                         return;
                     }
-                    double x;
-                    double y;
                     try {
-                        x = Integer.parseInt(unparsedX);
-                        y = Integer.parseInt(unparsedY);
+                        num[0] = Double.parseDouble(unparsedX);
+                        num[1] = Double.parseDouble(unparsedY);
                     } catch (NumberFormatException e) {
-                        routingContext.fail(401, e);
+                        routingContext.fail(400, e);
                         return;
                     }
-                    Starter.LOG.info("X = " + x);
-                    Starter.LOG.info("Y = " + y);
-                    mathMessage[0] = mathMethods[0].getStringBuilder(x, y).toString();
-                    message[0] = new MathMessage(x, y, mathMessage[0]);
-                    eb.request("LoggingVerticle", message[0], res -> {
+
+                    HttpServerResponse response = routingContext.response();
+                    response.putHeader("content-type", "text/plain");
+                    response.end("Received GET, with parameters " + num[0] + ", " + num[1]);
+                    eb.request("LoggingVerticle", new MathMessage(num[0], num[1], new MathMethods().getStringBuilder(num[0], num[1]).toString()), res -> {
+                        System.out.println(num[0]);
+                        System.out.println(num[1]);
                         if (res.succeeded()) {
                             Starter.LOG.info("Received reply: " + res.result().body());
                         }
                     });
-                    HttpServerResponse response = routingContext.response();
-                    response.putHeader("content-type", "text/plain");
-                    response.end("Received GET, with parameters " + x + ", " + y);
                 });
+        eb.request("LoggingVerticle", new MathMessage(num[0], num[1], mathMethods.getStringBuilder(num[0], num[1]).toString()), res -> {
+            System.out.println(num[0]);
+            System.out.println(num[1]);
+            if (res.succeeded()) {
+                Starter.LOG.info("Received reply: " + res.result().body());
+            }
+        });
     }
 }

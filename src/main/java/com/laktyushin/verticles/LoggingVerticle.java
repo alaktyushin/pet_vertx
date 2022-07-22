@@ -15,10 +15,10 @@ public class LoggingVerticle extends AbstractVerticle {
     @Override
     public void start(Promise<Void> startPromise) {
         Starter.LOG.info("LoggingVerticle deployed");
-        Router router = Router.router(vertx);
-        HttpServer server = vertx.createHttpServer();
+        final Router router = Router.router(vertx);
+        final HttpServer server = vertx.createHttpServer();
+        final AtomicReference<Object> body = new AtomicReference<>();
         server.requestHandler(router).listen(8080);
-        AtomicReference<Object> body = new AtomicReference<>();
         vertx.eventBus().consumer("LoggingVerticle", message -> {
                     LOG.info("I have received a message.");
                     message.reply("Message delivered.");
