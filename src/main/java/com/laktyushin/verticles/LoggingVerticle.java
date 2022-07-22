@@ -21,7 +21,6 @@ public class LoggingVerticle extends AbstractVerticle {
         server.requestHandler(router).listen(8080);
         vertx.eventBus().consumer("LoggingVerticle", message -> {
                     LOG.info("I have received a message.");
-                    message.reply("Message delivered.");
                     body.set(message.body());
                 }
         );

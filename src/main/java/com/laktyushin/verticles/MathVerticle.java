@@ -26,13 +26,10 @@ public class MathVerticle extends AbstractVerticle {
         Starter.LOG.info("MathVerticle deployed");
         final double[] num = {x, y};
         final EventBus eb = vertx.eventBus();
-        MathMethods mathMethods = new MathMethods();
-        Router router = Router.router(vertx);
-        HttpServer server = vertx.createHttpServer();
+        final Router router = Router.router(vertx);
+        final HttpServer server = vertx.createHttpServer();
         eb.registerDefaultCodec(MathMessage.class, new Codec<>());
         server.requestHandler(router).listen(8081);
-
-
         router
                 .get("/math")
                 .handler(routingContext -> {
@@ -53,20 +50,10 @@ public class MathVerticle extends AbstractVerticle {
                     HttpServerResponse response = routingContext.response();
                     response.putHeader("content-type", "text/plain");
                     response.end("Received GET, with parameters " + num[0] + ", " + num[1]);
-                    eb.request("LoggingVerticle", new MathMessage(num[0], num[1], new MathMethods().getStringBuilder(num[0], num[1]).toString()), res -> {
-                        System.out.println(num[0]);
-                        System.out.println(num[1]);
-                        if (res.succeeded()) {
-                            Starter.LOG.info("Received reply: " + res.result().body());
-                        }
-                    });
+                    eb.send("LoggingVerticle",
+                            new MathMessage(num[0], num[1], new MathMethods().getStringBuilder(num[0], num[1]).toString()));
                 });
-        eb.request("LoggingVerticle", new MathMessage(num[0], num[1], mathMethods.getStringBuilder(num[0], num[1]).toString()), res -> {
-            System.out.println(num[0]);
-            System.out.println(num[1]);
-            if (res.succeeded()) {
-                Starter.LOG.info("Received reply: " + res.result().body());
-            }
-        });
+        eb.send("LoggingVerticle",
+                new MathMessage(num[0], num[1], new MathMethods().getStringBuilder(num[0], num[1]).toString()));
     }
 }
