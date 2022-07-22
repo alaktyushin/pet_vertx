@@ -46,14 +46,15 @@ public class MathVerticle extends AbstractVerticle {
                         routingContext.fail(400, e);
                         return;
                     }
-
                     HttpServerResponse response = routingContext.response();
                     response.putHeader("content-type", "text/plain");
                     response.end("Received GET, with parameters " + num[0] + ", " + num[1]);
                     eb.send("LoggingVerticle",
-                            new MathMessage(num[0], num[1], new MathMethods().getStringBuilder(num[0], num[1]).toString()));
+                            new MathMessage(num[0], num[1],
+                                    new MathMethods().getStringBuilder(num[0], num[1]).toString()));
                 });
         eb.send("LoggingVerticle",
-                new MathMessage(num[0], num[1], new MathMethods().getStringBuilder(num[0], num[1]).toString()));
+                new MathMessage(num[0], num[1],
+                        new MathMethods().getStringBuilder(num[0], num[1]).toString()));
     }
 }
